@@ -1,90 +1,104 @@
-"""Pure safety-guard tests; no real database access."""
+"""Pure safety-guard tests for the tracked first-admin bootstrap CLI."""
 
 import pytest
 
-from provision_first_admin import ensure_bootstrap_allowed
+from scripts import bootstrap_admin
 
 
-def test_empty_target_database_accepted():
-    ensure_bootstrap_allowed(
-        "supportflow_db",
-        "supportflow_db",
-        True,
-        0,
-    )
-
-
-def test_wrong_database_rejected():
-    with pytest.raises(RuntimeError):
-        ensure_bootstrap_allowed(
-            "production_db",
-            "development_db",
-            True,
-            0,
-        )
-
-
-def test_missing_admin_table_rejected():
-    with pytest.raises(RuntimeError):
-        ensure_bootstrap_allowed(
-            "supportflow_db",
-            "supportflow_db",
-            False,
-            0,
-        )
-
-
-def test_existing_admin_rejected():
-    with pytest.raises(RuntimeError):
-        ensure_bootstrap_allowed(
-            "supportflow_db",
-            "supportflow_db",
-            True,
-            1,
-        )
-
-
-def test_test_database_rejected():
-    with pytest.raises(RuntimeError):
-        ensure_bootstrap_allowed(
-            "supportflow_test_db",
-            "supportflow_test_db",
-            True,
-            0,
-        )
-
-def test_matching_unapproved_database_rejected():
-    with pytest.raises(RuntimeError):
-        ensure_bootstrap_allowed(
-            "some_other_database",
-            "some_other_database",
-            True,
-            0,
-        )
-
-
-def test_configured_database_name_rejected_when_unapproved(monkeypatch):
-    from provision_first_admin import validate_configured_database
-    from app.config import settings
-
+def test_fresh_database_is_accepted(monkeypatch):
     monkeypatch.setattr(
-        settings,
+        bootstrap_admin.settings,
         "database_url",
-        "postgresql+asyncpg://user:pass@localhost/other_db",
+        "postgresql+asyncpg://user:pass@localhost/fresh_supportflow",
     )
-
-    with pytest.raises(RuntimeError):
-        validate_configured_database("supportflow_db")
-
-
-def test_configured_database_guard_accepts_approved_target(monkeypatch):
-    from provision_first_admin import validate_configured_database
-    from app.config import settings
-
     monkeypatch.setattr(
-        settings,
-        "database_url",
-        "postgresql+asyncpg://user:pass@localhost/supportflow_db",
+        bootstrap_admin.settings,
+        "application_database_name",
+        "fresh_supportflow",
     )
+    assert bootstrap_admin.ensure_bootstrap_target_is_safe() == "fresh_supportflow"
 
-    validate_configured_database("supportflow_db")
+
+@pytest.mark.parametrize("database", ["supportflow_recovery", "supportflow_test_db"])
+def test_protected_databases_are_rejected(monkeypatch, database):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        f"postgresql+asyncpg://user:pass@localhost/{database}",
+    )
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "application_database_name",
+        database,
+    )
+    with pytest.raises(RuntimeError, match="protected"):
+        bootstrap_admin.ensure_bootstrap_target_is_safe()
+
+
+def test_missing_database_name_is_rejected(monkeypatch):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        "postgresql+asyncpg://user:pass@localhost",
+    )
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "application_database_name",
+        "fresh_supportflow",
+    )
+    with pytest.raises(RuntimeError, match="database name"):
+        bootstrap_admin.ensure_bootstrap_target_is_safe()
+
+
+def test_protected_configured_name_is_rejected_even_with_fresh_url(monkeypatch):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        "postgresql+asyncpg://user:pass@localhost/fresh_supportflow",
+    )
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "application_database_name",
+        "supportflow_recovery",
+    )
+    with pytest.raises(RuntimeError, match="protected"):
+        bootstrap_admin.ensure_bootstrap_target_is_safe()
+
+
+def test_protected_database_match_is_case_insensitive(monkeypatch):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        "postgresql+asyncpg://user:pass@localhost/SUPPORTFLOW_TEST_DB",
+    )
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "application_database_name",
+        "SUPPORTFLOW_TEST_DB",
+    )
+    with pytest.raises(RuntimeError, match="protected"):
+        bootstrap_admin.ensure_bootstrap_target_is_safe()
+
+
+def test_fresh_url_is_accepted_when_application_name_is_unset(monkeypatch):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        "postgresql+asyncpg://user:pass@localhost/another_fresh_db",
+    )
+    monkeypatch.setattr(bootstrap_admin.settings, "application_database_name", "")
+    assert bootstrap_admin.ensure_bootstrap_target_is_safe() == "another_fresh_db"
+
+
+def test_database_name_is_returned_from_configured_url(monkeypatch):
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "database_url",
+        "postgresql+asyncpg://user:pass@localhost/clone_database",
+    )
+    monkeypatch.setattr(
+        bootstrap_admin.settings,
+        "application_database_name",
+        "clone_database",
+    )
+    assert bootstrap_admin.ensure_bootstrap_target_is_safe() == "clone_database"
