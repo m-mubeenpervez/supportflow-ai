@@ -32,7 +32,7 @@ async def prepare(factory):
         async with db.begin():
             customer = Customer(
                 name="Verification HTTP Test",
-                email=f"verify-{uuid.uuid4().hex}@gmail.com",
+                email=f"verify-{uuid.uuid4().hex}@example.com",
                 password_hash="TEST_ONLY",
             )
             db.add(customer)

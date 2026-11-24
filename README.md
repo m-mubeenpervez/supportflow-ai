@@ -20,7 +20,12 @@ flowchart LR
     NoticeWorker --> SMTP
 ```
 
-New clones use a Compose-managed PostgreSQL database (`supportflow_db`) and their own credentials. Existing deployments may use a private recovery override, which must never be used for first-install bootstrap. Automated tests use only `supportflow_test_db` and disposable `sf_*` schemas.
+New clones use a Compose-managed PostgreSQL 16 database with pgvector 0.8.7
+(`supportflow_db`) and their own credentials. The fresh volume initializes the
+`vector` extension automatically; existing volumes are never reinitialized.
+Existing deployments may use a private recovery override, which must never be used
+for first-install bootstrap. Automated tests use only `supportflow_test_db` and
+disposable `sf_*` schemas.
 
 ## Prerequisites
 

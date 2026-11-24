@@ -37,7 +37,7 @@ async def create_customer(factory, key):
         async with db.begin():
             customer = Customer(
                 name="Resend Test",
-                email=f"resend-{uuid.uuid4().hex}@gmail.com",
+                email=f"resend-{uuid.uuid4().hex}@example.com",
                 password_hash="TEST_ONLY",
             )
             db.add(customer)

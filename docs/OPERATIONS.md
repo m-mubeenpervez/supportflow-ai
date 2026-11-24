@@ -17,7 +17,10 @@ Email delivery defaults to disabled. Never pass passwords or secrets on a comman
 ## Services and data safety
 
 The base Compose file provisions an independent PostgreSQL/pgvector service named
-`postgres` for new installations, plus backend, frontend and two idle email workers.
+`postgres` (pgvector 0.8.7 on PostgreSQL 16) for new installations, plus backend,
+frontend and two idle email workers. A read-only init script creates the `vector`
+extension idempotently when a new volume is initialized. Existing persistent volumes
+are not reinitialized; verify/upgrade them separately after a backup.
 Use only private, ignored overrides for an existing deployment. Never mount an
 existing recovery volume into a fresh clone, and never use `down --volumes` or
 `--remove-orphans` during routine operations.
@@ -61,3 +64,9 @@ Automated tests use only the isolated test database and mocked SMTP/provider cal
 Live Gemini, SMTP and browser-account tests are optional and must use sanitized,
 disposable fixtures. Keep `.env`, `secrets/`, migration overrides and private
 archives ignored and out of release commits.
+
+Customer registration intentionally creates an unverified account and queues a
+verification message. With delivery disabled, login remains blocked until the user
+verifies through `/auth/verify-email`; configure a private SMTP sender and test-mode
+recipient allowlist for an isolated onboarding test. No verification bypass is
+provided.

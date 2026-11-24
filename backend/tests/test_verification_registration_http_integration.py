@@ -24,7 +24,7 @@ from test_email_worker_integration import worker_database
 
 
 def new_email():
-    return f"http-register-{uuid.uuid4().hex}@gmail.com"
+    return f"http-register-{uuid.uuid4().hex}@example.com"
 
 
 def registration_data(email=None):
