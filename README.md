@@ -1,6 +1,27 @@
 # SupportFlow AI
 
-SupportFlow AI is a customer-support portfolio application with customer and administrator authentication, verified-email onboarding, LangGraph orchestration, Gemini-backed routing and responses with safe local fallbacks, pgvector RAG, MCP business tools, human approval gates, notifications, audit history, and Option A account anonymization.
+SupportFlow AI is a secure AI customer-support platform demonstrating LangGraph orchestration, Gemini-backed routing, pgvector RAG, MCP business tools, human approval gates, administrator RBAC, persistent conversations and Dockerized operations.
+
+## Core features
+
+- Customer registration with email-verification gating, JWT sessions and account controls.
+- Super Admin and Support Admin portals with database-backed authorization.
+- LangGraph intent routing, bounded conversation history and Gemini responses with deterministic fallbacks.
+- Policy retrieval from PostgreSQL/pgvector and customer-scoped order/ticket tools through MCP.
+- Human approval workflow for sensitive refund and cancellation requests; no financial transfer is performed.
+- Persistent conversations, tickets, notifications, audit records and retry-safe email outboxes.
+- Separate verification and notification workers managed by Docker Compose.
+
+## Verified release-candidate quality gates
+
+These are measured results from the verified release-candidate run, not continuously updated CI badges:
+
+- Backend regression: **514 pytest tests passed**.
+- Frontend regression: **20 Vitest tests passed**; production build passed.
+- Secure first-admin bootstrap tests: **26 passed**.
+- Isolated clean-clone Docker installation verified.
+- PostgreSQL 16 with pgvector 0.8.7 initialized the vector extension automatically on a new volume.
+- First Super Admin bootstrap/login, duplicate-bootstrap refusal and database persistence across restart verified.
 
 ## Architecture
 
@@ -8,14 +29,19 @@ SupportFlow AI is a customer-support portfolio application with customer and adm
 flowchart LR
     Browser[React UI / nginx] --> API[FastAPI]
     API --> Auth[Customer + admin JWT/RBAC]
-    API --> Graph[LangGraph]
-    Graph --> MCP[MCP tools]
+    API --> Graph[LangGraph workflow]
+    Graph --> Gemini[Gemini routing and response]
+    Graph --> MCP[Authorized MCP tools]
     MCP --> DB[(PostgreSQL + pgvector)]
-    Graph --> Gemini[Gemini with timeout/fallback]
-    API --> Approval[Human approval gate]
-    Approval --> DB
-    DB --> VerifyWorker[Verification email worker]
-    DB --> NoticeWorker[Notification/account email worker]
+    DB --> RAG[Policy chunks and retrieval]
+    RAG --> Graph
+    Graph --> Response[Grounded response]
+    Graph --> Approval[Human approval gate]
+    Approval --> Admin[Authorized admin decision]
+    Admin --> DB
+    API --> Conversations[Persistent tickets and conversations]
+    DB --> VerifyWorker[Verification outbox worker]
+    DB --> NoticeWorker[Notification outbox worker]
     VerifyWorker --> SMTP[STARTTLS SMTP]
     NoticeWorker --> SMTP
 ```
@@ -23,9 +49,11 @@ flowchart LR
 New clones use a Compose-managed PostgreSQL 16 database with pgvector 0.8.7
 (`supportflow_db`) and their own credentials. The fresh volume initializes the
 `vector` extension automatically; existing volumes are never reinitialized.
-Existing deployments may use a private recovery override, which must never be used
-for first-install bootstrap. Automated tests use only `supportflow_test_db` and
-disposable `sf_*` schemas.
+The published Compose setup is independent: each clone gets its own database,
+credentials, network and volume. The current owner deployment uses a private
+Compose-managed PostgreSQL service named `postgres-staging`; historical recovery
+resources remain privately preserved and are not shipped in this repository.
+Automated tests use only `supportflow_test_db` and disposable `sf_*` schemas.
 
 ## Prerequisites
 
@@ -73,6 +101,7 @@ If ports are occupied, set `BACKEND_PORT`, `FRONTEND_PORT`, and `PUBLIC_API_URL`
 
 ```powershell
 docker compose stop
+```
 
 Workers remain idle while `EMAIL_DELIVERY_ENABLED=false`. Enabling delivery is
 a separate, explicitly approved change because pending/retry rows may then be
@@ -124,6 +153,6 @@ Live judging is optional, sanitized, quota-consuming, and documented in `evaluat
 ## Known limitations
 
 - Live SMTP delivery, inbox placement, browser-driven disposable-account journeys, and live Gemini/DeepEval judging require external credentials and were not executed in the final automated run.
-- PostgreSQL remains externally managed so Compose cannot restart it; this avoids modifying recovered infrastructure.
+- Fresh clones use Compose-managed PostgreSQL. Historical recovery infrastructure is intentionally private and preserved separately from the published repository.
 - Migration SQL is ordered but not managed by a version ledger/Alembic. Apply it only after a verified private backup.
 - Repository-wide Ruff reports pre-existing style debt; risky bulk auto-formatting was intentionally avoided.
