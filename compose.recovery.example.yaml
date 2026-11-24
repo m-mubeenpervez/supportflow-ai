@@ -1,0 +1,13 @@
+# Optional private override for the preserved owner deployment.
+# Copy to compose.recovery.yaml (which is ignored) and keep the recovery
+# DATABASE_URL/credentials in the private .env only.
+services:
+  backend:
+    environment:
+      DATABASE_HOST_OVERRIDE: host.docker.internal
+  verification-email-worker:
+    environment:
+      DATABASE_HOST_OVERRIDE: host.docker.internal
+  notification-email-worker:
+    environment:
+      DATABASE_HOST_OVERRIDE: host.docker.internal

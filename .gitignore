@@ -1,0 +1,39 @@
+
+# Environment variables and API keys
+.env
+.env.*
+!.env.example
+compose.recovery.yaml
+compose.migration-staging.yaml
+compose.migration-cutover.yaml
+
+# Python virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.deepeval/
+*.log
+evaluation/playwright-artifacts/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Frontend
+node_modules/
+dist/
+.next/
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+secrets/
+backups/

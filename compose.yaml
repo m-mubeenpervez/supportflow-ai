@@ -1,0 +1,95 @@
+name: supportflow-ai
+
+x-backend: &backend
+  build:
+    context: ./backend
+  env_file:
+    - .env
+  environment:
+    DATABASE_HOST_OVERRIDE: ${DATABASE_HOST_OVERRIDE:-}
+    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  restart: unless-stopped
+  init: true
+  networks:
+    - supportflow
+
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.0-pg16
+    container_name: supportflow_postgres_local
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-supportflow_db}
+      POSTGRES_USER: ${POSTGRES_USER:-supportflow_user}
+      # Required for a fresh install; leave empty only for recovery overrides
+      # that do not use this local database.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    volumes:
+      - supportflow_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+    networks:
+      - supportflow
+
+  backend:
+    <<: *backend
+    container_name: supportflow_backend
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
+        VITE_ADMIN_AUTH_MODE: jwt
+    container_name: supportflow_frontend
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - supportflow
+
+  verification-email-worker:
+    <<: *backend
+    container_name: supportflow_verification_email_worker
+    command: ["python", "-m", "app.verification_entrypoint", "--run", "--send-real-email"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  notification-email-worker:
+    <<: *backend
+    container_name: supportflow_notification_email_worker
+    command: ["python", "-m", "app.email_entrypoint", "--run"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  supportflow:
+    driver: bridge
+
+volumes:
+  supportflow_postgres_data:

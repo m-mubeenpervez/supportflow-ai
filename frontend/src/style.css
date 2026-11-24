@@ -1,0 +1,3634 @@
+
+/* ==========================================================
+   SUPPORTFLOW AI - GLOBAL STYLESHEET
+   Theme: Charcoal / Warm Ivory / Muted Copper
+
+   01. Design Tokens
+   02. Global Reset & Typography
+   03. Authentication Layout
+   04. Authentication Forms
+   05. Application Shell
+   06. Sidebar & Navigation
+   07. Dashboard Header
+   08. Customer Chat Panel
+   09. Chat Messages & Composer
+   10. Admin Dashboard
+   11. Shared Utilities
+   12. Responsive Design
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+
+/* ==========================================================
+   01. DESIGN TOKENS
+   ========================================================== */
+
+:root {
+  /* Brand */
+  --color-primary: #242326;
+  --color-primary-hover: #383438;
+  --color-accent: #b77955;
+  --color-accent-hover: #955b3c;
+  --color-on-dark: #ffffff;
+
+  /* Surfaces */
+  --color-background: #f7f4ef;
+  --color-surface: #ffffff;
+  --color-surface-muted: #fcfbf9;
+  --color-surface-alt: #f1ece5;
+
+  /* Sidebar */
+  --color-sidebar: #242326;
+  --color-sidebar-active: #403a37;
+  --color-sidebar-text: #c8c0b9;
+
+  /* Text */
+  --color-text: #242326;
+  --color-text-muted: #746d67;
+  --color-text-subtle: #968c83;
+
+  /* Borders */
+  --color-border: #e9e3da;
+  --color-border-strong: #d8cfc4;
+
+  /* Feedback */
+  --color-success: #725638;
+  --color-success-bg: #f3eadc;
+  --color-warning: #95651f;
+  --color-warning-bg: #fff3df;
+  --color-error: #a54439;
+  --color-error-bg: #fff0ed;
+
+  /* Typography */
+  --font-body: "DM Sans", sans-serif;
+  --font-heading: "Manrope", sans-serif;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  /* Shadows */
+  --shadow-card: 0 8px 35px rgba(36, 35, 38, 0.06);
+  --shadow-auth:
+    0 24px 70px rgba(36, 35, 38, 0.07),
+    0 4px 12px rgba(36, 35, 38, 0.03);
+
+  /* Layout */
+  --sidebar-width: 264px;
+  --sidebar-collapsed-width: 76px;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-sidebar: 0.25s ease;
+}
+
+
+/* ==========================================================
+   02. GLOBAL RESET & TYPOGRAPHY
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+}
+
+h1 {
+  margin: 7px 0;
+  font-size: 29px;
+  letter-spacing: -1px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+
+/* ==========================================================
+   03. AUTHENTICATION - LOGIN & REGISTER LAYOUT
+   ========================================================== */
+
+/* Full-screen authentication background */
+
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 32px 20px;
+
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(183, 121, 85, 0.1),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 85% 85%,
+      rgba(36, 35, 38, 0.05),
+      transparent 40%
+    ),
+    var(--color-background);
+}
+
+/* Login / Register card */
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 42px;
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-auth);
+}
+
+/* Authentication branding */
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  color: var(--color-text);
+}
+
+.auth-brand > svg {
+  width: 46px;
+  height: 46px;
+  padding: 11px;
+
+  color: var(--color-on-dark);
+  background: var(--color-primary);
+  border-radius: 13px;
+}
+
+.auth-brand h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+}
+
+.auth-brand h2 span {
+  color: var(--color-accent);
+}
+
+/* Authentication heading */
+
+.auth-heading {
+  margin-bottom: 30px;
+}
+
+.auth-heading h1 {
+  margin: 0 0 10px;
+  color: var(--color-text);
+  font-size: 29px;
+  font-weight: 800;
+}
+
+.auth-heading p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+
+/* ==========================================================
+   04. AUTHENTICATION - FORMS & PASSWORD VALIDATION
+   ========================================================== */
+
+/* Form structure */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-form label {
+  margin-top: 6px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Input wrapper */
+
+.auth-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  min-height: 50px;
+  padding: 0 15px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-muted);
+  color: var(--color-text-subtle);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.auth-input:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(183, 121, 85, 0.12);
+}
+
+.auth-input input {
+  width: 100%;
+  min-width: 0;
+  padding: 13px 0;
+
+  border: none;
+  outline: none;
+  background: transparent;
+
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.auth-input input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+/* Login / Register primary button */
+
+.auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 50px;
+  margin-top: 14px;
+  padding: 12px 18px;
+
+  border: none;
+  border-radius: 10px;
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.auth-submit:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+/* Authentication footer */
+
+.auth-footer {
+  margin: 28px 0 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.auth-footer button {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-accent-hover);
+  font-weight: 700;
+}
+
+.auth-footer button:hover {
+  text-decoration: underline;
+}
+
+
+/* Development-only admin access link */
+
+.dev-admin-link {
+  position: fixed;
+  right: 22px;
+  bottom: 20px;
+  z-index: 10;
+
+  padding: 9px 14px;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.dev-admin-link:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+}
+
+
+/* Authentication feedback */
+
+.auth-error,
+.auth-success {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.auth-error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.auth-success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+/* Password visibility toggle */
+
+.password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.password-toggle:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+}
+
+/* Live password requirements */
+
+.password-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  margin: 4px 0 8px;
+  padding: 14px 16px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.password-requirements p {
+  margin: 0 0 4px;
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.password-rule {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--color-text-muted);
+  font-size: 12px;
+  transition: color var(--transition-fast);
+}
+
+.password-rule svg {
+  flex-shrink: 0;
+}
+
+.password-rule.valid {
+  color: var(--color-success);
+}
+
+
+/* ==========================================================
+   05. APPLICATION SHELL
+   ========================================================== */
+
+/* Viewport-constrained dashboard */
+
+.shell {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Dashboard main content */
+
+.shell main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  padding: 24px clamp(20px, 3vw, 48px);
+  overflow: hidden;
+}
+
+/* Customer dashboard content */
+
+.customer-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 0;
+}
+
+
+/* ==========================================================
+   06. SIDEBAR & NAVIGATION
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   06.1 SIDEBAR CONTAINER
+   ---------------------------------------------------------- */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  height: 100%;
+  min-height: 0;
+
+  padding: 24px 18px;
+  overflow: hidden;
+
+  background: var(--color-sidebar);
+  color: var(--color-sidebar-text);
+
+  transition:
+    width var(--transition-sidebar),
+    min-width var(--transition-sidebar),
+    transform var(--transition-sidebar);
+}
+
+/* Sidebar header */
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+/* Brand */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 0;
+
+  color: var(--color-on-dark);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.brand-text {
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.brand span {
+  color: var(--color-accent);
+}
+
+.brand small {
+  display: block;
+  margin-top: 4px;
+
+  color: var(--color-sidebar-text);
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+}
+
+/* Brand logo */
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-on-dark);
+}
+
+/* Internal sidebar toggle */
+
+.sidebar-internal-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 36px;
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.sidebar-internal-toggle:hover {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+
+/* ----------------------------------------------------------
+   06.2 SIDEBAR NAVIGATION
+   ---------------------------------------------------------- */
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+
+  width: 100%;
+  margin-top: 32px;
+}
+
+.nav button {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.nav button:hover,
+.nav button.active {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+.nav button svg {
+  flex-shrink: 0;
+}
+
+
+/* ----------------------------------------------------------
+   06.3 PREVIOUS CONVERSATIONS
+   ---------------------------------------------------------- */
+
+.sidebar-history {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  min-height: 0;
+  margin-top: 24px;
+  overflow: hidden;
+}
+
+/* History title and refresh button */
+
+.sidebar-history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 8px;
+
+  margin-bottom: 12px;
+  padding: 0 10px;
+
+  color: var(--color-sidebar-text);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.sidebar-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 28px;
+  height: 28px;
+  padding: 0;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+}
+
+.sidebar-refresh:hover:not(:disabled) {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+/* Scrollable ticket list */
+
+.sidebar-ticket-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 5px;
+
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  scrollbar-width: thin;
+  scrollbar-color: #665b55 transparent;
+}
+
+/* Single conversation item */
+
+.sidebar-ticket {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 11px;
+
+  width: 100%;
+  min-height: 55px;
+  padding: 10px 12px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+  text-align: left;
+}
+
+.sidebar-ticket:hover,
+.sidebar-ticket.active {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+.sidebar-ticket svg {
+  flex-shrink: 0;
+}
+
+.sidebar-ticket-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  min-width: 0;
+  text-align: left;
+}
+
+.sidebar-ticket-title {
+  display: block;
+  overflow: hidden;
+
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-ticket-status {
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+/* History feedback */
+
+.sidebar-history-feedback,
+.sidebar-history-empty,
+.sidebar-history-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 12px;
+  color: var(--color-sidebar-text);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.sidebar-history-error {
+  color: #f3b5a7;
+  overflow-wrap: anywhere;
+}
+
+
+/* ----------------------------------------------------------
+   06.4 SIDEBAR FOOTER
+   ---------------------------------------------------------- */
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 14px;
+
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Secure session information */
+
+.sidefoot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px;
+
+  color: var(--color-sidebar-text);
+  font-size: 12px;
+}
+
+.sidefoot svg {
+  flex-shrink: 0;
+}
+
+/* Logout button */
+
+.sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  font-size: 13px;
+  text-align: left;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.sidebar-logout:hover {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+.sidebar-logout svg {
+  flex-shrink: 0;
+}
+
+
+/* ----------------------------------------------------------
+   06.5 DESKTOP COLLAPSED SIDEBAR
+   ---------------------------------------------------------- */
+
+@media (min-width: 801px) {
+
+  .shell.sidebar-collapsed .sidebar {
+    align-items: center;
+
+    width: var(--sidebar-collapsed-width);
+    min-width: var(--sidebar-collapsed-width);
+    padding: 24px 10px;
+  }
+
+  /* Stack logo and toggle vertically */
+
+  .shell.sidebar-collapsed .sidebar-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .shell.sidebar-collapsed .brand {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .shell.sidebar-collapsed .brand-text,
+  .shell.sidebar-collapsed .sidebar-label {
+    display: none;
+  }
+
+  .shell.sidebar-collapsed .sidebar-internal-toggle {
+    width: 44px;
+    height: 40px;
+  }
+
+  /* Center navigation items */
+
+  .shell.sidebar-collapsed .nav {
+    align-items: center;
+    margin-top: 28px;
+  }
+
+  .shell.sidebar-collapsed .nav button {
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  /* Center history controls */
+
+  .shell.sidebar-collapsed .sidebar-history {
+    align-items: center;
+    width: 100%;
+  }
+
+  .shell.sidebar-collapsed .sidebar-history-heading {
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+  }
+
+  .shell.sidebar-collapsed .sidebar-refresh {
+    width: 40px;
+    height: 36px;
+  }
+
+  .shell.sidebar-collapsed .sidebar-ticket-list {
+    width: 100%;
+  }
+
+  .shell.sidebar-collapsed .sidebar-ticket {
+    justify-content: center;
+    gap: 0;
+    padding: 12px 0;
+  }
+
+  .shell.sidebar-collapsed .sidebar-history-feedback,
+  .shell.sidebar-collapsed .sidebar-history-empty {
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  /* Center bottom controls */
+
+  .shell.sidebar-collapsed .sidebar-bottom {
+    align-items: center;
+  }
+
+  .shell.sidebar-collapsed .sidefoot,
+  .shell.sidebar-collapsed .sidebar-logout {
+    justify-content: center;
+    gap: 0;
+
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .shell.sidebar-collapsed .nav svg,
+  .shell.sidebar-collapsed .sidebar-ticket svg,
+  .shell.sidebar-collapsed .sidefoot svg,
+  .shell.sidebar-collapsed .sidebar-logout svg {
+    display: block;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+}
+
+
+/* ----------------------------------------------------------
+   06.6 MOBILE NAVIGATION CONTROLS
+   ---------------------------------------------------------- */
+
+/* Hamburger */
+
+.sidebar-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+
+  background: var(--color-surface);
+  color: var(--color-primary);
+
+  transition: background var(--transition-fast);
+}
+
+.sidebar-toggle:hover {
+  background: var(--color-surface-alt);
+}
+
+/* Mobile overlay hidden by default */
+
+.sidebar-overlay {
+  display: none;
+}
+
+
+/* ==========================================================
+   07. DASHBOARD HEADER
+   ========================================================== */
+
+/* Main dashboard header */
+
+.shell header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+/* Header left content */
+
+.dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.dashboard-heading {
+  min-width: 0;
+}
+
+.dashboard-heading h1 {
+  margin: 7px 0;
+}
+
+/* Small heading label */
+
+.eyebrow {
+  color: var(--color-accent-hover);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* Header description */
+
+.shell header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Assistant status */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+
+  padding: 10px 15px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 30px;
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.status i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+
+/* ==========================================================
+   08. CUSTOMER CHAT PANEL
+   ========================================================== */
+
+/* Shared panel styling */
+
+.chatpanel,
+.tablewrap {
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+/* Chat panel fills remaining space */
+
+.chatpanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Chat panel header */
+
+.paneltop {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Assistant avatar */
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+}
+
+/* Chat heading */
+
+.paneltop strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.paneltop small {
+  display: block;
+  margin-top: 4px;
+
+  color: var(--color-text-subtle);
+  font-size: 11px;
+}
+
+/* Ticket badge */
+
+.tag {
+  margin-left: auto;
+  padding: 7px 12px;
+
+  border-radius: 20px;
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   09. CHAT MESSAGES & COMPOSER
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   09.1 SCROLLABLE MESSAGES
+   ---------------------------------------------------------- */
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding: clamp(18px, 3vw, 32px);
+  background: var(--color-surface-muted);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+/* Empty conversation */
+
+.messages .empty {
+  margin: auto;
+}
+
+.messages .empty svg {
+  color: var(--color-accent);
+}
+
+.messages .empty h3 {
+  margin: 15px 0 8px;
+  font-size: 18px;
+}
+
+.messages .empty p {
+  max-width: 350px;
+  margin: 0 auto;
+
+  color: var(--color-text-subtle);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+
+/* ----------------------------------------------------------
+   09.2 MESSAGE BUBBLES
+   ---------------------------------------------------------- */
+
+.bubble {
+  max-width: min(76%, 680px);
+  padding: 15px 18px;
+
+  border-radius: 13px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Assistant message */
+
+.bubble.assistant {
+  align-self: flex-start;
+
+  border: 1px solid var(--color-border);
+  border-top-left-radius: 3px;
+
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Customer message */
+
+.bubble.user {
+  align-self: flex-end;
+
+  border-top-right-radius: 3px;
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+}
+
+/* Message author label */
+
+.bubblelabel {
+  margin-bottom: 8px;
+
+  color: var(--color-accent-hover);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.bubble.user .bubblelabel {
+  color: #e5bba2;
+}
+
+
+/* ----------------------------------------------------------
+   09.3 APPROVAL & LOADING STATES
+   ---------------------------------------------------------- */
+
+/* Pending approval indicator */
+
+.pending {
+  margin-top: 10px;
+  padding: 8px;
+
+  border-radius: 6px;
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+
+  font-size: 12px;
+}
+
+/* Human approval notice */
+
+.chat-notice {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 12px;
+
+  padding: 15px 24px;
+
+  border-top: 1px solid var(--color-border);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.chat-notice svg {
+  flex-shrink: 0;
+}
+
+/* Loading animation */
+
+.loading-icon {
+  display: inline-block;
+  vertical-align: middle;
+  animation: chat-spin 1s linear infinite;
+}
+
+@keyframes chat-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ----------------------------------------------------------
+   09.4 CHAT COMPOSER
+   ---------------------------------------------------------- */
+
+/* Composer container */
+
+.compose {
+  flex-shrink: 0;
+  padding: 20px 24px;
+  background: var(--color-surface);
+}
+
+/* Optional composer labels */
+
+.compose label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.compose label input {
+  width: 70px;
+  padding: 5px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+/* Message entry form */
+
+.compose form {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 11px;
+  background: var(--color-surface);
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.compose form:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(183, 121, 85, 0.09);
+}
+
+/* Message input */
+
+.compose form input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 14px;
+}
+
+/* Send button */
+
+.compose form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 11px 16px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+
+  font-size: 13px;
+  font-weight: 600;
+  transition: background var(--transition-fast);
+}
+
+.compose form button:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+/* Composer disclaimer */
+
+.hint {
+  margin: 11px 0 0;
+  color: var(--color-text-subtle);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Optional text action */
+
+.textbutton {
+  padding: 12px 0 0;
+
+  border: none;
+  background: transparent;
+  color: var(--color-accent-hover);
+
+  font-size: 12px;
+}
+
+/* Customer dashboard footer */
+
+.customer-chat-footer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 9px;
+
+  margin-top: 14px;
+
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.customer-chat-footer svg {
+  flex-shrink: 0;
+}
+
+
+
+/* ==========================================================
+   10. ADMIN DASHBOARD
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   10.1 DASHBOARD SHELL
+   ---------------------------------------------------------- */
+
+.admin-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--color-background);
+}
+
+/* Main scrollable workspace */
+
+.admin-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+/* ----------------------------------------------------------
+   10.2 ADMIN SIDEBAR
+   ---------------------------------------------------------- */
+
+.admin-sidebar {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  height: 100%;
+  min-height: 0;
+
+  padding: 24px 18px;
+  overflow: hidden;
+
+  background: var(--color-sidebar);
+  color: var(--color-sidebar-text);
+
+  transition:
+    width var(--transition-sidebar),
+    min-width var(--transition-sidebar),
+    transform var(--transition-sidebar);
+}
+
+.admin-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admin-brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-on-dark);
+}
+
+.admin-brand strong {
+  display: block;
+  color: var(--color-on-dark);
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.admin-brand strong span {
+  color: var(--color-accent);
+}
+
+.admin-brand small {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-sidebar-text);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.admin-collapse-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 36px;
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.admin-collapse-button:hover {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+/* Navigation */
+
+.admin-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 0;
+
+  margin-top: 42px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-sidebar-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-sidebar-section {
+  display: block;
+  margin: 0 10px 12px;
+
+  color: var(--color-sidebar-text);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+}
+
+.admin-sidebar-menu > button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 13px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.admin-sidebar-menu > button:hover,
+.admin-sidebar-menu > button.active {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+.admin-sidebar-menu > button svg {
+  flex-shrink: 0;
+}
+
+.admin-nav-count {
+  margin-left: auto;
+  color: var(--color-sidebar-text);
+  font-size: 11px;
+}
+
+/* Sidebar footer */
+
+.admin-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 13px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.admin-session {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+
+  color: var(--color-sidebar-text);
+  font-size: 11px;
+}
+
+.admin-session svg {
+  flex-shrink: 0;
+}
+
+.admin-signout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+
+  background: transparent;
+  color: var(--color-sidebar-text);
+
+  font-size: 13px;
+  text-align: left;
+}
+
+.admin-signout:hover {
+  background: var(--color-sidebar-active);
+  color: var(--color-on-dark);
+}
+
+/* ----------------------------------------------------------
+   10.3 COLLAPSED SIDEBAR
+   ---------------------------------------------------------- */
+
+@media (min-width: 801px) {
+  .admin-sidebar-collapsed .admin-sidebar {
+    align-items: center;
+    width: var(--sidebar-collapsed-width);
+    min-width: var(--sidebar-collapsed-width);
+    padding: 24px 10px;
+  }
+
+  .admin-sidebar-collapsed .admin-sidebar-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .admin-sidebar-collapsed .admin-brand {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .admin-sidebar-collapsed .admin-sidebar-label {
+    display: none;
+  }
+
+  .admin-sidebar-collapsed .admin-collapse-button {
+    width: 44px;
+    height: 40px;
+  }
+
+  .admin-sidebar-collapsed .admin-sidebar-menu,
+  .admin-sidebar-collapsed .admin-sidebar-bottom {
+    align-items: center;
+    width: 100%;
+  }
+
+  .admin-sidebar-collapsed .admin-sidebar-menu > button,
+  .admin-sidebar-collapsed .admin-session,
+  .admin-sidebar-collapsed .admin-signout {
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    padding: 12px 0;
+  }
+}
+
+/* ----------------------------------------------------------
+   10.4 TOP HEADER
+   ---------------------------------------------------------- */
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 22px;
+
+  min-height: 76px;
+  padding: 16px clamp(20px, 3vw, 44px);
+
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.admin-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.admin-topbar h1 {
+  margin: 6px 0;
+  font-size: 25px;
+}
+
+.admin-topbar p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.admin-topbar-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 14px;
+}
+
+.admin-online-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--color-text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.admin-online-indicator > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.admin-refresh-button,
+.admin-mobile-menu {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 40px;
+  padding: 10px 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-refresh-button:hover:not(:disabled),
+.admin-mobile-menu:hover {
+  background: var(--color-surface-alt);
+}
+
+.admin-mobile-menu {
+  display: none;
+}
+
+/* ----------------------------------------------------------
+   10.5 MAIN CONTENT
+   ---------------------------------------------------------- */
+
+.admin-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 30px clamp(20px, 3vw, 44px) 48px;
+}
+
+.admin-page-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.admin-page-intro .admin-section-title {
+  margin: 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.admin-page-intro p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.admin-page-indicator {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 8px;
+
+  padding: 10px 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: 30px;
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------
+   10.6 STATISTICS CARDS
+   ---------------------------------------------------------- */
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.admin-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  min-width: 0;
+  padding: 22px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.admin-stat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-stat-top > span {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.admin-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+}
+
+.admin-stat-card strong {
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.admin-stat-card small {
+  color: var(--color-text-subtle);
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------
+   10.7 TICKETS & SEARCH
+   ---------------------------------------------------------- */
+
+.admin-tickets-section {
+  min-width: 0;
+}
+
+.admin-section-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 17px;
+}
+
+.admin-section-top h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.admin-section-top h2 svg {
+  color: var(--color-accent-hover);
+}
+
+.admin-section-top p {
+  margin: 0;
+  color: var(--color-text-subtle);
+  font-size: 12px;
+}
+
+.admin-ticket-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: min(100%, 280px);
+  padding: 10px 13px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text-subtle);
+}
+
+.admin-ticket-search input {
+  width: 100%;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--color-text);
+
+  font-size: 12px;
+}
+
+.admin-ticket-search:focus-within {
+  border-color: var(--color-accent);
+}
+
+/* Ticket table */
+
+.admin-dashboard .tablewrap,
+.admin-tickets-section .tablewrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.admin-tickets-section table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.admin-tickets-section th {
+  padding: 17px 18px;
+
+  background: var(--color-surface-muted);
+  color: var(--color-text-subtle);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.admin-tickets-section td {
+  padding: 17px 18px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: none;
+  vertical-align: middle;
+}
+
+.admin-tickets-section tbody tr.selected {
+  background: var(--color-surface-alt);
+}
+
+.admin-tickets-section td small {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-text-subtle);
+  font-size: 11px;
+}
+
+/* Ticket status */
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+
+  border-radius: 20px;
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+
+  font-size: 11px;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.pill.pending_approval {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.pill.approved {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.pill.rejected {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+/* View action */
+
+.ticket-view-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  padding: 9px 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-accent-hover);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ticket-view-button:hover {
+  background: var(--color-surface-alt);
+}
+
+/* ----------------------------------------------------------
+   10.8 TICKET DETAILS
+   ---------------------------------------------------------- */
+
+.admin-ticket-details {
+  margin-top: 25px;
+  padding: 24px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.admin-ticket-details-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-ticket-details-header h2 {
+  margin: 8px 0;
+  font-size: 21px;
+}
+
+.admin-ticket-details-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.admin-ticket-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+
+  padding: 21px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-ticket-meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.admin-ticket-meta small {
+  color: var(--color-text-subtle);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+}
+
+.admin-ticket-meta strong {
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.admin-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 15px;
+}
+
+.admin-section-heading svg {
+  color: var(--color-accent-hover);
+}
+
+.admin-section-heading h2,
+.admin-section-heading h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* ----------------------------------------------------------
+   10.9 CONVERSATION HISTORY
+   ---------------------------------------------------------- */
+
+.admin-ticket-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  min-height: 110px;
+  max-height: 370px;
+  padding: 20px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface-muted);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.admin-message {
+  max-width: min(80%, 650px);
+  padding: 14px 17px;
+
+  border-radius: 12px;
+
+  font-size: 13px;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.admin-message.assistant {
+  align-self: flex-start;
+
+  border: 1px solid var(--color-border);
+  border-top-left-radius: 3px;
+
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.admin-message.user {
+  align-self: flex-end;
+
+  border-top-right-radius: 3px;
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+}
+
+.admin-message strong {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 10px;
+  letter-spacing: 0.6px;
+}
+
+.admin-message p {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.admin-messages-empty {
+  margin: auto;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ----------------------------------------------------------
+   10.10 HUMAN APPROVAL
+   ---------------------------------------------------------- */
+
+.admin-approval {
+  margin-top: 24px;
+  padding: 22px;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+
+  background: var(--color-surface-muted);
+}
+
+.admin-approval > p {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.admin-approval label {
+  display: block;
+  margin: 17px 0 9px;
+
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-approval textarea {
+  display: block;
+  width: 100%;
+  min-height: 90px;
+  padding: 13px;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: 13px;
+  resize: vertical;
+}
+
+.admin-approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.admin-approval-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 11px 18px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-approval-actions button:first-child {
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+}
+
+.admin-approval-actions button:last-child {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.admin-approval-actions button:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.admin-approval-disclaimer {
+  margin: 15px 0 0;
+  color: var(--color-warning);
+  font-size: 12px;
+}
+
+/* ----------------------------------------------------------
+   10.11 EMPTY SELECTION
+   ---------------------------------------------------------- */
+
+.admin-select-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 24px;
+  padding: 23px;
+
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.admin-select-hint svg {
+  flex-shrink: 0;
+  color: var(--color-accent-hover);
+}
+
+/* ----------------------------------------------------------
+   10.12 FOOTER
+   ---------------------------------------------------------- */
+
+.admin-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 18px clamp(20px, 3vw, 44px);
+
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+
+  color: var(--color-text-subtle);
+  font-size: 11px;
+}
+
+/* ----------------------------------------------------------
+   10.13 MOBILE NAVIGATION
+   ---------------------------------------------------------- */
+
+.admin-sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .admin-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 800px) {
+  .admin-layout .admin-sidebar {
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: 100dvh;
+
+    transform: translateX(-100%);
+  }
+
+  .admin-layout.admin-mobile-open .admin-sidebar {
+    transform: translateX(0);
+  }
+
+  .admin-layout.admin-mobile-open .admin-sidebar-overlay {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+
+    border: none;
+    background: rgba(20, 19, 20, 0.55);
+  }
+
+  .admin-mobile-menu {
+    display: inline-flex;
+  }
+
+  .admin-topbar {
+    min-height: 90px;
+    padding: 20px;
+  }
+
+  .admin-content {
+    padding: 22px 20px 35px;
+  }
+
+  .admin-online-indicator {
+    display: none;
+  }
+
+  .admin-page-indicator {
+    display: none;
+  }
+
+  .admin-footer {
+    padding: 17px 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .admin-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px 14px;
+  }
+
+  .admin-topbar-left {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-topbar h1 {
+    font-size: 20px;
+  }
+
+  .admin-topbar p {
+    display: none;
+  }
+
+  .admin-topbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .admin-refresh-button {
+    padding: 10px;
+  }
+
+  .admin-refresh-button span {
+    display: none;
+  }
+
+  .admin-content {
+    padding: 20px 14px 30px;
+  }
+
+  .admin-page-intro .admin-section-title {
+    font-size: 21px;
+  }
+
+  .admin-stats {
+    gap: 10px;
+  }
+
+  .admin-stat-card {
+    padding: 16px;
+  }
+
+  .admin-stat-card strong {
+    font-size: 28px;
+  }
+
+  .admin-ticket-search {
+    width: 100%;
+  }
+
+  .admin-ticket-details {
+    padding: 15px;
+  }
+
+  .admin-ticket-meta {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .admin-ticket-messages {
+    padding: 12px;
+  }
+
+  .admin-message {
+    max-width: 94%;
+    padding: 12px;
+  }
+
+  .admin-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 14px;
+  }
+}
+
+/* ----------------------------------------------------------
+   10.14 TICKET DATE / TIME FILTERS
+   Insert INSIDE Section 10, immediately before Section 11.
+   ---------------------------------------------------------- */
+
+.admin-filter-panel {
+  margin: 0 0 18px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.admin-filter-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.admin-filter-title > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-filter-title svg { color: var(--color-accent-hover); }
+.admin-filter-title small { color: var(--color-text-subtle); font-size: 11px; }
+
+.admin-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.admin-filter-field > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-filter-field input,
+.admin-filter-field select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 41px;
+  padding: 9px 11px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-size: 12px;
+  color-scheme: light;
+}
+
+.admin-filter-field input:focus,
+.admin-filter-field select:focus {
+  outline: 2px solid rgba(183, 121, 85, 0.3);
+  border-color: var(--color-accent);
+}
+
+.admin-filter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-filter-footer > span {
+  color: var(--color-text-subtle);
+  font-size: 11px;
+}
+
+.admin-filter-footer button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  color: var(--color-accent-hover);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-filter-footer button:hover {
+  background: var(--color-surface-alt);
+}
+
+@media (max-width: 1100px) {
+  .admin-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 550px) {
+  .admin-filter-panel { padding: 14px; }
+  .admin-filter-grid { grid-template-columns: 1fr; }
+  .admin-filter-footer { align-items: stretch; flex-direction: column; }
+  .admin-filter-footer button { width: 100%; }
+}
+
+
+
+/* ==========================================================
+   11. SHARED FEEDBACK & UTILITIES
+   ========================================================== */
+
+/* Empty states */
+
+.empty {
+  padding: 40px;
+  color: var(--color-text-subtle);
+  text-align: center;
+}
+
+/* API errors */
+
+.error {
+  flex-shrink: 0;
+  margin-top: 12px;
+  padding: 13px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-error-bg);
+  color: var(--color-error);
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Muted text */
+
+.muted {
+  color: var(--color-text-subtle);
+}
+
+/* Conversation loading state */
+
+.chat-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  padding: 12px 16px;
+  margin-bottom: 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+
+  font-size: 13px;
+}
+
+
+/* ==========================================================
+   12. RESPONSIVE DESIGN
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   12.1 TABLET & MOBILE - MAX 800px
+   ---------------------------------------------------------- */
+
+@media (max-width: 800px) {
+
+  /* Sidebar becomes an off-canvas drawer */
+
+  .shell .sidebar {
+    position: fixed;
+    z-index: 1001;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: 100dvh;
+    min-height: 0;
+
+    padding: 24px 18px;
+    overflow: hidden;
+
+    transform: translateX(-100%);
+    box-shadow: 12px 0 40px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Open drawer */
+
+  .shell.mobile-sidebar-open .sidebar {
+    transform: translateX(0);
+  }
+
+  /* Overlay behind mobile drawer */
+
+  .shell.mobile-sidebar-open .sidebar-overlay {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+    background: rgba(20, 19, 20, 0.55);
+  }
+
+  /* Full labels in mobile drawer */
+
+  .sidebar .brand-text,
+  .sidebar .sidebar-label {
+    display: block;
+  }
+
+  /* Mobile sidebar close button */
+
+  .sidebar-internal-toggle {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Dashboard */
+
+  .shell main {
+    width: 100%;
+    padding: 20px 16px;
+  }
+
+  .shell header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .dashboard-header-left {
+    gap: 14px;
+  }
+
+  .status {
+    white-space: nowrap;
+  }
+
+  /* Chat */
+
+  .bubble {
+    max-width: 90%;
+  }
+
+  /* Admin */
+
+  .stats {
+    gap: 10px;
+  }
+
+  .stats > div {
+    padding: 16px;
+  }
+
+  .tablewrap {
+    overflow-x: auto;
+  }
+
+}
+
+
+/* ----------------------------------------------------------
+   12.2 SMALL MOBILE - MAX 480px
+   ---------------------------------------------------------- */
+
+@media (max-width: 480px) {
+
+  /* Authentication */
+
+  .auth-page {
+    padding: 20px 14px;
+  }
+
+  .auth-card {
+    padding: 30px 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .auth-heading h1 {
+    font-size: 25px;
+  }
+
+  .auth-brand {
+    margin-bottom: 28px;
+  }
+
+  /* Dashboard */
+
+  .shell main {
+    padding: 14px 12px;
+  }
+
+  .dashboard-header-left {
+    gap: 12px;
+    width: 100%;
+  }
+
+  .dashboard-heading h1 {
+    font-size: 23px;
+  }
+
+  .shell header p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .shell header {
+    margin-bottom: 14px;
+  }
+
+  /* Status */
+
+  .status {
+    padding: 7px 11px;
+    font-size: 11px;
+  }
+
+  /* Chat panel */
+
+  .chatpanel {
+    border-radius: 14px;
+  }
+
+  .paneltop {
+    gap: 9px;
+    padding: 14px;
+  }
+
+  .paneltop strong {
+    font-size: 12px;
+  }
+
+  .paneltop small {
+    font-size: 10px;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .tag {
+    padding: 6px 9px;
+    font-size: 10px;
+  }
+
+  /* Messages */
+
+  .messages {
+    gap: 15px;
+    padding: 16px;
+  }
+
+  .messages .empty {
+    padding: 15px;
+  }
+
+  .messages .empty h3 {
+    font-size: 16px;
+  }
+
+  .bubble {
+    max-width: 92%;
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+
+  /* Composer */
+
+  .compose {
+    padding: 14px;
+  }
+
+  .compose form input {
+    padding: 9px;
+    font-size: 13px;
+  }
+
+  .compose form button {
+    padding: 10px 12px;
+  }
+
+  /* Footer */
+
+  .customer-chat-footer {
+    margin-top: 10px;
+    font-size: 11px;
+  }
+
+  /* Admin dashboard */
+
+  .auth {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+/* ----------------------------------------------------------
+   12.3 SHORT VIEWPORTS
+   ---------------------------------------------------------- */
+
+@media (max-height: 550px) {
+
+  /* Keep the composer and chat usable on short screens */
+
+  .shell main {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .shell header {
+    margin-bottom: 10px;
+  }
+
+  .shell header p,
+  .customer-chat-footer {
+    display: none;
+  }
+
+  .sidebar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .nav {
+    margin-top: 14px;
+  }
+
+  .sidebar-history {
+    margin-top: 12px;
+  }
+
+  .compose {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+}
+
+
+/* ----------------------------------------------------------
+   12.4 REDUCED MOTION ACCESSIBILITY
+   ---------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+}
+
+
+/* ==========================================================
+   13. ADMIN HUMAN APPROVAL CONFIRMATION MODAL
+   ========================================================== */
+
+.admin-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 20px;
+  background: rgba(20, 19, 22, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.admin-confirm-modal {
+  width: min(100%, 490px);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  margin: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24);
+}
+
+.admin-confirm-heading {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 26px 28px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-confirm-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: var(--color-surface-alt);
+  color: var(--color-accent-hover);
+}
+
+.admin-confirm-eyebrow {
+  color: var(--color-accent-hover);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.admin-confirm-heading h2 {
+  margin: 6px 0 0;
+  font-size: 20px;
+  line-height: 1.35;
+}
+
+.admin-confirm-body {
+  padding: 24px 28px;
+}
+
+.admin-confirm-ticket {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+  font-size: 13px;
+}
+
+.admin-confirm-ticket span {
+  color: var(--color-text-muted);
+}
+
+.admin-confirm-body > p {
+  margin: 20px 0;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.admin-confirm-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.admin-confirm-warning svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.admin-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 28px 26px;
+  border-top: 1px solid var(--color-border);
+}
+
+.admin-confirm-actions button {
+  min-height: 44px;
+  padding: 11px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-confirm-cancel {
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.admin-confirm-submit {
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-on-dark);
+}
+
+.admin-confirm-submit:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.admin-confirm-reject {
+  border-color: var(--color-error);
+  background: var(--color-error);
+}
+
+.admin-confirm-reject:hover:not(:disabled) {
+  background: #85352d;
+}
+
+@media (max-width: 480px) {
+  .admin-confirm-backdrop {
+    padding: 12px;
+  }
+
+  .admin-confirm-modal {
+    max-height: calc(100dvh - 24px);
+  }
+
+  .admin-confirm-heading,
+  .admin-confirm-body {
+    padding: 20px;
+  }
+
+  .admin-confirm-actions {
+    padding: 16px 20px 20px;
+  }
+
+  .admin-confirm-actions button {
+    flex: 1;
+  }
+}
+
+
+
+/* Customer notification and assistant status alignment */
+.customer-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.customer-header-actions .status {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .customer-header-actions {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-left: 0;
+  }
+}
+
+/* ==========================================
+   ADMIN NOTIFICATION CENTER
+   ========================================== */
+
+.admin-notification-center {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.admin-notification-trigger {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-notification-trigger:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.admin-notification-trigger:active {
+  transform: scale(0.96);
+}
+
+.admin-notification-trigger:focus-visible,
+.admin-notification-close:focus-visible,
+.admin-notification-item:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+.admin-notification-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: inline-flex;
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.admin-notification-panel {
+  position: absolute;
+  z-index: 1100;
+  top: calc(100% + 12px);
+  right: 0;
+  width: min(390px, calc(100vw - 32px));
+  max-height: min(540px, 75vh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.17);
+  animation: adminNotificationEnter 0.18s ease-out;
+}
+
+@keyframes adminNotificationEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-notification-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 17px 18px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-notification-panel-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.admin-notification-panel-header strong {
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.admin-notification-panel-header span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.admin-notification-close {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.admin-notification-close:hover {
+  background: #f1f5f9;
+}
+
+.admin-notification-list {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.admin-notification-item {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 15px 17px;
+  border: 0;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+  color: #334155;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.admin-notification-item:hover {
+  background: #f8fafc;
+}
+
+.admin-notification-item.unread {
+  background: #eff6ff;
+}
+
+.admin-notification-item.unread:hover {
+  background: #dbeafe;
+}
+
+.admin-notification-item:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.admin-notification-item-icon {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.admin-notification-item.unread
+.admin-notification-item-icon {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.admin-notification-item-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  overflow-wrap: anywhere;
+}
+
+.admin-notification-item-body strong {
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-notification-item-body > span {
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.admin-notification-item-body small {
+  color: #2563eb;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.admin-notification-unread-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: #2563eb;
+}
+
+.admin-notification-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 36px 18px;
+  color: #64748b;
+  font-size: 13px;
+  text-align: center;
+}
+
+.admin-notification-empty strong {
+  color: #334155;
+}
+
+.admin-notification-error {
+  margin: 10px;
+  padding: 11px;
+  border-radius: 9px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+.admin-notification-footer {
+  padding: 11px 16px;
+  border-top: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 11px;
+  text-align: center;
+}
+
+@media (min-width: 601px) and (max-width: 800px) {
+  .admin-notification-panel {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: auto;
+    right: 0;
+    width: min(390px, calc(100vw - 24px));
+    max-height: min(540px, 70vh);
+    transform: none;
+    z-index: 1100;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-notification-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    width: min(390px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    transform: translate(-50%, -50%);
+    animation: none;
+    z-index: 9999;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-notification-panel {
+    animation: none;
+  }
+
+  .admin-notification-trigger,
+  .admin-notification-item {
+    transition: none;
+  }
+}

@@ -1,0 +1,4 @@
+# Optional, isolated evaluation/browser tooling; not production dependencies.
+deepeval==2.9.7
+playwright==1.65.2
+sentry-sdk>=2,<3
